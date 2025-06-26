@@ -3,183 +3,1199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chúc Mừng Tốt Nghiệp - Nguyễn Thị Trúc Li</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>Lễ Trao Bằng Tốt Nghiệp - Nguyễn Thị Trúc Ly</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background: #f8fafc;
+        }
+
+        /* Welcome Screen */
+        .welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #3b82f6 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: all 1.5s ease-out;
+        }
+
+        .welcome-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="stars" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="white" opacity="0.3"/></pattern></defs><rect width="100" height="100" fill="url(%23stars)"/></svg>');
+            opacity: 0.4;
+        }
+
+        .welcome-screen.hidden {
+            opacity: 0;
+            transform: scale(0.95);
+            pointer-events: none;
+        }
+
+        .welcome-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .graduation-cap-welcome {
+            font-size: 100px;
+            margin-bottom: 30px;
+            animation: float 3s ease-in-out infinite;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .welcome-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5em;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            animation: slideInUp 1s ease-out;
+        }
+
+        .welcome-subtitle {
+            font-size: 1.4em;
+            color: #e2e8f0;
+            margin-bottom: 50px;
+            font-weight: 300;
+            animation: slideInUp 1s ease-out 0.3s both;
+        }
+
+        .student-card {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 50px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            animation: slideInUp 1s ease-out 0.6s both;
+        }
+
+        .student-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5em;
+            color: #1e40af;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .student-details {
+            font-size: 1.2em;
+            color: #475569;
+            line-height: 1.8;
+            font-weight: 400;
+        }
+
+        .student-details strong {
+            color: #1e40af;
+            font-weight: 600;
+        }
+
+        .attend-btn {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            border: none;
+            padding: 18px 45px;
+            font-size: 1.3em;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(245,158,11,0.3);
+            animation: slideInUp 1s ease-out 0.9s both;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .attend-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .attend-btn:hover::before {
+            left: 100%;
+        }
+
+        .attend-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(245,158,11,0.4);
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Ceremony Screen */
+        .ceremony-screen {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(to bottom, #87ceeb 0%, #98fb98 40%, #90ee90 100%);
+            overflow: hidden;
+            display: none;
+        }
+
+        .ceremony-screen.active {
+            display: block;
+        }
+
+        /* Sky and Clouds */
+        .sky {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            background: linear-gradient(to bottom, #87ceeb 0%, #b0e0e6 100%);
+        }
+
+        .cloud {
+            position: absolute;
+            background: white;
+            border-radius: 50px;
+            opacity: 0.8;
+            animation: float-cloud 20s linear infinite;
+        }
+
+        .cloud::before,
+        .cloud::after {
+            content: '';
+            position: absolute;
+            background: white;
+            border-radius: 50px;
+        }
+
+        .cloud1 {
+            width: 80px;
+            height: 40px;
+            top: 10%;
+            left: -100px;
+        }
+
+        .cloud1::before {
+            width: 50px;
+            height: 50px;
+            top: -25px;
+            left: 10px;
+        }
+
+        .cloud1::after {
+            width: 60px;
+            height: 40px;
+            top: -15px;
+            right: 10px;
+        }
+
+        .cloud2 {
+            width: 60px;
+            height: 30px;
+            top: 20%;
+            left: -80px;
+            animation-delay: -10s;
+        }
+
+        .cloud2::before {
+            width: 40px;
+            height: 40px;
+            top: -20px;
+            left: 8px;
+        }
+
+        .cloud2::after {
+            width: 50px;
+            height: 30px;
+            top: -10px;
+            right: 8px;
+        }
+
+        @keyframes float-cloud {
+            from { left: -100px; }
+            to { left: calc(100% + 100px); }
+        }
+
+        /* Audience */
+        .audience {
+            position: absolute;
+            bottom: 250px;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            padding: 0 50px;
+        }
+
+        .audience-member {
+            width: 30px;
+            height: 60px;
+            background: linear-gradient(to bottom, #8b4513, #654321);
+            border-radius: 15px 15px 0 0;
+            position: relative;
+        }
+
+        .audience-member::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: #fdbcb4;
+            border-radius: 50%;
+        }
+
+        /* Stage - More realistic */
+        .stage {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70%;
+            height: 250px;
+            background: linear-gradient(to bottom, #8b4513 0%, #654321 100%);
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 -15px 40px rgba(0,0,0,0.3);
+            border: 3px solid #5d4037;
+        }
+
+        .stage::before {
+            content: '';
+            position: absolute;
+            top: -25px;
+            left: -5%;
+            width: 110%;
+            height: 50px;
+            background: linear-gradient(to bottom, #daa520, #b8860b);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Podium - More detailed */
+        .podium {
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 100px;
+            background: linear-gradient(to bottom, #daa520, #b8860b);
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            border: 2px solid #8b7355;
+        }
+
+        .podium::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            height: 20px;
+            background: linear-gradient(to bottom, #ffd700, #daa520);
+            border-radius: 10px;
+        }
+
+        /* Principal - More detailed */
+        .principal {
+            position: absolute;
+            top: -180px;
+            right: 25%;
+            width: 50px;
+            height: 80px;
+            background: linear-gradient(to bottom, #1a1a1a, #333);
+            border-radius: 25px 25px 0 0;
+            transition: all 2s ease;
+        }
+
+        .principal-head {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 30px;
+            background: #fdbcb4;
+            border-radius: 50%;
+        }
+
+        .principal-cap {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 35px;
+            height: 15px;
+            background: #000;
+            border-radius: 5px;
+        }
+
+        .principal-cap::after {
+            content: '';
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            width: 6px;
+            height: 6px;
+            background: #ffd700;
+            border-radius: 50%;
+        }
+
+        .principal.presenting {
+            transform: translateX(-20px);
+        }
+
+        /* Student Character - More realistic */
+        .student {
+            position: absolute;
+            bottom: 300px;
+            left: -80px;
+            width: 45px;
+            height: 75px;
+            transition: all 4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 10;
+        }
+
+        .student.walking {
+            left: calc(50% - 80px);
+            bottom: 350px;
+        }
+
+        .student.receiving {
+            left: calc(50% - 22px);
+            bottom: 350px;
+        }
+
+        .student-head {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 25px;
+            height: 25px;
+            background: #fdbcb4;
+            border-radius: 50%;
+        }
+
+        .student-hair {
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 28px;
+            height: 20px;
+            background: #4a4a4a;
+            border-radius: 50% 50% 0 0;
+        }
+
+        .student-cap {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 12px;
+            background: #000;
+            border-radius: 3px;
+            z-index: 2;
+        }
+
+        .student-cap::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 5px;
+            height: 5px;
+            background: #ffd700;
+            border-radius: 50%;
+        }
+
+        .student-body {
+            width: 45px;
+            height: 60px;
+            background: linear-gradient(to bottom, #1a1a1a, #333);
+            border-radius: 22px 22px 0 0;
+            position: relative;
+        }
+
+        .student-arms {
+            position: absolute;
+            top: 15px;
+            left: -8px;
+            width: 15px;
+            height: 30px;
+            background: #fdbcb4;
+            border-radius: 8px;
+        }
+
+        .student-arms::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -46px;
+            width: 15px;
+            height: 30px;
+            background: #fdbcb4;
+            border-radius: 8px;
+        }
+
+        /* Diploma - Better positioned */
+        .diploma {
+            position: absolute;
+            top: -140px;
+            left: calc(50% + 40px);
+            transform: translateX(-50%) scale(0) rotate(-10deg);
+            width: 80px;
+            height: 60px;
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            border: 2px solid #ffd700;
+            border-radius: 5px;
+            transition: all 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            z-index: 15;
+        }
+
+        .diploma.show {
+            transform: translateX(-50%) scale(1) rotate(0deg);
+        }
+
+        .diploma::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+
+        .diploma-text {
+            padding: 8px;
+            text-align: center;
+            font-size: 6px;
+            color: #333;
+            line-height: 1.1;
+            font-weight: 500;
+        }
+
+        .diploma-seal {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            width: 12px;
+            height: 12px;
+            background: #ffd700;
+            border-radius: 50%;
+            font-size: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Confetti - More realistic */
+        .confetti {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            animation: confetti-fall 4s linear infinite;
+        }
+
+        .confetti.square {
+            background: #ff6b6b;
+        }
+
+        .confetti.circle {
+            background: #4ecdc4;
+            border-radius: 50%;
+        }
+
+        .confetti.triangle {
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-bottom: 8px solid #ffd93d;
+            background: transparent;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Flowers - More beautiful */
+        .flower {
+            position: absolute;
+            font-size: 25px;
+            animation: flower-fall 5s ease-in-out infinite;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));
+        }
+
+        @keyframes flower-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(-90vh) rotate(36deg) scale(1);
+            }
+            90% {
+                opacity: 1;
+                transform: translateY(90vh) rotate(324deg) scale(1);
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        /* Congratulations Message */
+        .congratulations {
+            position: absolute;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            opacity: 0;
+            transition: all 1.5s ease;
+            z-index: 20;
+        }
+
+        .congratulations.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-10px);
+        }
+
+        .congrats-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8em;
+            color: #1e40af;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.8);
+            margin-bottom: 15px;
+            animation: celebration-pulse 2s infinite;
+            font-weight: 700;
+        }
+
+        .congrats-subtitle {
+            font-size: 1.3em;
+            color: #1e40af;
+            background: rgba(255,255,255,0.95);
+            padding: 15px 30px;
+            border-radius: 25px;
+            display: inline-block;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border: 2px solid #ffd700;
+            font-weight: 500;
+        }
+
+        @keyframes celebration-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Sparkles */
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #ffd700;
+            border-radius: 50%;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .welcome-title { font-size: 2.5em; }
+            .welcome-subtitle { font-size: 1.2em; }
+            .student-name { font-size: 2em; }
+            .student-details { font-size: 1em; }
+            .attend-btn { padding: 15px 35px; font-size: 1.1em; }
+            .congrats-title { font-size: 2.2em; }
+            .congrats-subtitle { font-size: 1.1em; padding: 12px 25px; }
+            .stage { width: 85%; }
+            .audience { padding: 0 20px; }
+        }
+
+        @media (max-width: 480px) {
+            .welcome-title { font-size: 2em; }
+            .student-name { font-size: 1.6em; }
+            .student-card { padding: 25px; }
+            .congrats-title { font-size: 1.8em; }
+            .stage { width: 95%; }
+        }
+
+        /* Thêm vào phần CSS */
+
+        /* Person giving diploma */
+        .diploma-giver {
+            position: absolute;
+            top: -180px;
+            left: 30%;
+            width: 50px;
+            height: 80px;
+            background: linear-gradient(to bottom, #2563eb, #1d4ed8);
+            border-radius: 25px 25px 0 0;
+            transition: all 2s ease;
+            z-index: 5;
+        }
+
+        .diploma-giver-head {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 30px;
+            background: #fdbcb4;
+            border-radius: 50%;
+        }
+
+        .diploma-giver-cap {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 35px;
+            height: 15px;
+            background: #000;
+            border-radius: 5px;
+        }
+
+        .diploma-giver-cap::after {
+            content: '';
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            width: 6px;
+            height: 6px;
+            background: #ffd700;
+            border-radius: 50%;
+        }
+
+        .diploma-giver.presenting {
+            transform: translateX(20px);
+        }
+
+        /* Secret message button */
+        .secret-message-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #ec4899, #be185d);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(236,72,153,0.3);
+            opacity: 0;
+            transition: all 0.5s ease;
+            z-index: 25;
+            animation: gentle-pulse 2s infinite;
+        }
+
+        .secret-message-btn.show {
+            opacity: 1;
+        }
+
+        .secret-message-btn:hover {
+            transform: translate(-50%, -50%) translateY(-3px);
+            box-shadow: 0 12px 35px rgba(236,72,153,0.4);
+        }
+
+        @keyframes gentle-pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.05); }
+        }
+
+        /* Letter overlay */
+        .letter-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.5s ease;
+        }
+
+        .letter-overlay.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .letter {
+            background: linear-gradient(135deg, #fef7cd, #fef3c7);
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            border-radius: 15px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            position: relative;
+            transform: scale(0.8) rotateY(90deg);
+            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            overflow: hidden;
+        }
+
+        .letter-overlay.show .letter {
+            transform: scale(1) rotateY(0deg);
+        }
+
+        .letter::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            border-radius: 15px 15px 0 0;
+        }
+
+        .letter-header {
+            position: relative;
+            z-index: 2;
+            padding: 20px 30px 0;
+            text-align: center;
+        }
+
+        .letter-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8em;
+            color: white;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .letter-content {
+            padding: 30px;
+            overflow-y: auto;
+            max-height: calc(80vh - 120px);
+        }
+
+        .letter-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #374151;
+            text-align: justify;
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+
+        .letter-signature {
+            text-align: right;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3em;
+            color: #1e40af;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        .close-letter-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            font-size: 1.5em;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .close-letter-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+
+        /* Heart decorations */
+        .heart-decoration {
+            position: absolute;
+            color: #ec4899;
+            font-size: 20px;
+            opacity: 0.6;
+            animation: float-heart 4s ease-in-out infinite;
+        }
+
+        @keyframes float-heart {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+
+        /* Responsive for letter */
+        @media (max-width: 768px) {
+            .letter {
+                width: 95%;
+                margin: 20px;
+            }
+            
+            .letter-content {
+                padding: 20px;
+            }
+            
+            .letter-text {
+                font-size: 1em;
+                line-height: 1.6;
+            }
+            
+            .letter-title {
+                font-size: 1.5em;
+            }
+            
+            .secret-message-btn {
+                padding: 12px 25px;
+                font-size: 1em;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Background Animation -->
-    <div class="background-animation">
-        <div class="floating-shapes">
-            <div class="shape shape-1"></div>
-            <div class="shape shape-2"></div>
-            <div class="shape shape-3"></div>
-            <div class="shape shape-4"></div>
-            <div class="shape shape-5"></div>
+    <!-- Welcome Screen -->
+    <div class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-content">
+            <div class="graduation-cap-welcome">🎓</div>
+            <h1 class="welcome-title">Chúc Mừng Tốt Nghiệp!</h1>
+            <p class="welcome-subtitle">Lễ Trao Bằng Tốt Nghiệp Trang Trọng</p>
+            
+            <div class="student-card">
+                <div class="student-name">Nguyễn Thị Trúc Ly</div>
+                <div class="student-details">
+                    <strong>Ngành:</strong> Thiết Kế Đồ Họa<br>
+                    <strong>Khóa:</strong> D21<br>
+                    <strong>Trường:</strong> Đại học Thủ Dầu Một
+                </div>
+            </div>
+            
+            <button class="attend-btn" onclick="startCeremony()">
+                🎉 Tham Dự Lễ Trao Bằng 🎉
+            </button>
         </div>
     </div>
 
-    <!-- Main Container -->
-    <div class="container">
-        <!-- Header Section -->
-        <header class="header">
-            <div class="logo">
-                <div class="logo-icon">🎓</div>
-                <span>Graduation 2025</span>
-            </div>
-        </header>
+    <!-- Ceremony Screen -->
+    <div class="ceremony-screen" id="ceremonyScreen">
+        <!-- Sky -->
+        <div class="sky">
+            <div class="cloud cloud1"></div>
+            <div class="cloud cloud2"></div>
+        </div>
 
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="hero-content">
-                <div class="congratulations-badge">
-                    <span>🎉 Congratulations</span>
+        <!-- Audience -->
+        <div class="audience">
+            <div class="audience-member"></div>
+            <div class="audience-member"></div>
+            <div class="audience-member"></div>
+            <div class="audience-member"></div>
+            <div class="audience-member"></div>
+            <div class="audience-member"></div>
+            <div class="audience-member"></div>
+            <div class="audience-member"></div>
+        </div>
+
+        <!-- Stage -->
+        <div class="stage">
+            <div class="podium">
+                <div class="diploma" id="diploma">
+                    <div class="diploma-text">
+                        <strong>BẰNG TỐT NGHIỆP</strong><br>
+                        <strong>Nguyễn Thị Trúc Ly</strong><br>
+                        Thiết Kế Đồ Họa<br>
+                        Khóa D21
+                    </div>
+                    <div class="diploma-seal">🏆</div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Principal -->
+        <div class="principal" id="principal">
+            <div class="principal-head"></div>
+            <div class="principal-cap"></div>
+        </div>
+
+        <!-- Thêm sau phần Principal -->
+        <!-- Diploma Giver -->
+        <div class="diploma-giver" id="diplomaGiver">
+            <div class="diploma-giver-head"></div>
+            <div class="diploma-giver-cap"></div>
+        </div>
+
+        <!-- Secret Message Button -->
+        <button class="secret-message-btn" id="secretBtn" onclick="showLetter()">
+            💌 Tôi muốn nói nhỏ với bạn một điều, hãy click vào để xem
+        </button>
+
+        <!-- Student -->
+        <div class="student" id="student">
+            <div class="student-head"></div>
+            <div class="student-hair"></div>
+            <div class="student-cap"></div>
+            <div class="student-body">
+                <div class="student-arms"></div>
+            </div>
+        </div>
+
+        <!-- Congratulations Message -->
+        <div class="congratulations" id="congratulations">
+            <h1 class="congrats-title">🎊 CHÚC MỪNG! 🎊</h1>
+            <p class="congrats-subtitle">Nguyễn Thị Trúc Ly đã chính thức tốt nghiệp ngành Thiết Kế Đồ Họa!</p>
+        </div>
+    </div>
+
+    <!-- Thêm sau ceremony-screen -->
+    <!-- Letter Overlay -->
+    <div class="letter-overlay" id="letterOverlay">
+        <div class="letter">
+            <button class="close-letter-btn" onclick="closeLetter()">×</button>
+            <div class="letter-header">
+                <h2 class="letter-title">💕 Lá Thư Dành Cho Bạn 💕</h2>
+            </div>
+            <div class="letter-content">
+                <div class="letter-text">
+                    Tao biết mày đã rất cố gắng trong suốt thành trình còn lại của quãng đường đại học, tuy nhiên không phải thành quả nào cũng được đền đáp xứng đáng với công sức của mình, tao hiểu điều đó và hiểu được những cảm xúc mày đã phải trãi qua và chịu đựng trong suốt thời gian này.
+                    <br><br>
+                    Chặng đường sắp tới tuy gian nan nhưng dù vụn vỡ đến đâu tao vẫn muốn đồng hành và giúp đỡ mày một phần nào đó trong cuộc sống, là chỗ dựa tinh thần khi mày mệt mỏi bằng hộp chân gà sốt thái.
+                    <br><br>
+                    Làm bạn của m là niềm vui, niềm hạnh phúc, cũng là niềm may mắn mà tao có được. Bản thân tao đã sai rất nhiều trong quá khứ lẫn hiện tại, tao mong mày suy nghĩ lại và bỏ qua để tao có thời gian thay đổi bản thân hoàn thiện hơn và gặp mày khi tao đã đủ trưởng thành để có thể đồng hành tiếp với mày trong đoạn đường gian nan phía trước.
+                    <br><br>
+                    Thật sự những lúc cãi nhau tao chỉ thấy thời gian cứ lê thê. <strong>Xin lỗi và Cảm ơn Trúc Ly vì tất cả!</strong>
+                    <br><br>
+                    Hãy nghỉ ngơi và chuẩn bị thật tốt cho việc tốt nghiệp nha. Khi nào m muốn tâm sự t sẵn sàng đợi m và lắng nghe!
+                    <br><br>
+                    <strong style="color: #ec4899;">I love you more than you think ❤️</strong>
+                </div>
+                <div class="letter-signature">
+                    Với tất cả tình yêu thương 💕
+                </div>
+            </div>
+            
+            <!-- Heart decorations -->
+            <div class="heart-decoration" style="top: 20%; left: 10%;">💖</div>
+            <div class="heart-decoration" style="top: 30%; right: 15%; animation-delay: 1s;">💕</div>
+            <div class="heart-decoration" style="bottom: 25%; left: 15%; animation-delay: 2s;">💗</div>
+            <div class="heart-decoration" style="bottom: 35%; right: 10%; animation-delay: 0.5s;">💝</div>
+        </div>
+    </div>
+
+    <script>
+        // Thay thế function startCeremony() và thêm functions mới:
+
+        function startCeremony() {
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            
+            setTimeout(() => {
+                document.getElementById('ceremonyScreen').classList.add('active');
                 
-                <h1 class="main-title">
-                    <span class="title-line">Chúc Mừng</span>
-                    <span class="title-line highlight">Tốt Nghiệp</span>
-                </h1>
-
-                <div class="graduate-info">
-                    <h2 class="graduate-name">Nguyễn Thị Trúc Li</h2>
-                    <div class="program-info">
-                        <div class="info-item">
-                            <span class="label">Ngành:</span>
-                            <span class="value">Thiết Kế Đồ Họa</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="label">Khóa:</span>
-                            <span class="value">D21</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="label">MSSV:</span>
-                            <span class="value">2122104030037</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="label">Trường:</span>
-                            <span class="value">Đại học Thủ Dầu Một</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="celebration-message">
-                    <p>Chúc mừng em đã hoàn thành xuất sắc chương trình học và chính thức trở thành một Nhà Thiết Kế Đồ Họa tài năng!</p>
-                </div>
-
-                <button class="cta-button" onclick="showCelebration()">
-                    <span>🎊 Nhấp vào đây</span>
-                </button>
-            </div>
-
-            <div class="hero-visual">
-                <div class="design-elements">
-                    <div class="element element-1">
-                        <div class="color-palette">
-                            <div class="color" style="background: #FF6B6B;"></div>
-                            <div class="color" style="background: #4ECDC4;"></div>
-                            <div class="color" style="background: #45B7D1;"></div>
-                            <div class="color" style="background: #96CEB4;"></div>
-                            <div class="color" style="background: #FFEAA7;"></div>
-                        </div>
-                    </div>
-                    <div class="element element-3">
-                        <div class="geometric-shape triangle"></div>
-                        <div class="geometric-shape circle"></div>
-                        <div class="geometric-shape square"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Achievement Section -->
-        <section class="achievements">
-            <h3>Thành Tựu Đạt Được</h3>
-            <div class="achievement-grid">
-                <div class="achievement-card">
-                    <div class="achievement-icon">🎨</div>
-                    <h4>Creative Excellence</h4>
-                    <p>Thành thạo các công cụ thiết kế chuyên nghiệp</p>
-                </div>
-                <div class="achievement-card">
-                    <div class="achievement-icon">💡</div>
-                    <h4>Innovation</h4>
-                    <p>Tư duy sáng tạo và giải pháp thiết kế độc đáo</p>
-                </div>
-                <div class="achievement-card">
-                    <div class="achievement-icon">🏆</div>
-                    <h4>Academic Success</h4>
-                    <p>Hoàn thành xuất sắc chương trình đào tạo</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Personal Letter Section -->
-        <section class="personal-letter">
-            <div class="letter-container">
-                <div class="letter-header">
-                    <div class="letter-icon">💌</div>
-                    <h3>Thư Gửi Trúc Li</h3>
-                    <div class="letter-decoration"></div>
-                </div>
-                
-                <div class="letter-content">
-                    <div class="letter-paper">
-                        <div class="letter-text">
-                            <p>Tao biết mày đã rất cố gắng trong suốt hành trình còn lại của quãng đường đại học. Tuy nhiên không phải thành quả nào cũng được đền đáp xứng đáng với công sức của mình, tao hiểu điều đó và hiểu được những cảm xúc mày đã phải trải qua và chịu đựng trong suốt thời gian này.</p>
-                            
-                            <p>Chặng đường sắp tới tuy gian nan nhưng dù vụn vỡ đến đâu tao vẫn muốn đồng hành và giúp đỡ mày một phần nào đó trong cuộc sống, là chỗ dựa tinh thần khi mày mệt mỏi bằng hộp chân gà sốt thái. 😄</p>
-                            
-                            <p>Làm bạn của mày là niềm vui, niềm hạnh phúc, cũng là niềm may mắn mà tao có được. Bản thân tao đã sai rất nhiều trong quá khứ lẫn hiện tại, tao mong mày suy nghĩ lại và bỏ qua để tao có thời gian thay đổi bản thân hoàn thiện hơn và gặp mày khi tao đã đủ trưởng thành để có thể đồng hành tiếp với mày trong đoạn đường gian nan phía trước.</p>
-                            
-                            <p>Thật sự những lúc cãi nhau tao chỉ thấy thời gian cứ lê thê...</p>
-                            
-                            <div class="letter-signature">
-                                <p><strong>Xin lỗi và Cảm ơn Trúc Li vì tất cả!</strong></p>
-                                <p>Hãy nghỉ ngơi và chuẩn bị thật tốt cho việc tốt nghiệp nha.</p>
-                                <p>Khi nào mày muốn tâm sự tao sẵn sàng đợi mày và lắng nghe!</p>
-                                <p class="love-message">💝 I love you more than you think 💝</p>
-                            </div>
-                        </div>
+                setTimeout(() => {
+                    document.getElementById('student').classList.add('walking');
+                    
+                    setTimeout(() => {
+                        document.getElementById('student').classList.remove('walking');
+                        document.getElementById('student').classList.add('receiving');
                         
-                        <div class="letter-effects">
-                            <div class="sparkle sparkle-1">✨</div>
-                            <div class="sparkle sparkle-2">⭐</div>
-                            <div class="sparkle sparkle-3">💫</div>
-                            <div class="sparkle sparkle-4">🌟</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+                        setTimeout(() => {
+                            document.getElementById('diplomaGiver').classList.add('presenting');
+                            document.getElementById('principal').classList.add('presenting');
+                            
+                            setTimeout(() => {
+                                document.getElementById('diploma').classList.add('show');
+                                
+                                setTimeout(() => {
+                                    document.getElementById('congratulations').classList.add('show');
+                                    
+                                    setTimeout(() => {
+                                        createConfetti();
+                                        createFlowers();
+                                        createSparkles();
+                                        
+                                        // Show secret message button after 5 seconds
+                                        setTimeout(() => {
+                                            document.getElementById('secretBtn').classList.add('show');
+                                        }, 5000);
+                                        
+                                    }, 500);
+                                }, 1000);
+                            }, 800);
+                        }, 1000);
+                    }, 4000);
+                }, 1000);
+            }, 1500);
+        }
 
-        <!-- Future Section -->
-        <section class="future">
-            <div class="future-content">
-                <h3>Hành Trình Phía Trước</h3>
-                <p>Với nền tảng kiến thức vững chắc và đam mê thiết kế, chúc Li sẽ tiếp tục tỏa sáng trong sự nghiệp và tạo ra những tác phẩm ấn tượng!</p>
-                <div class="wishes">
-                    <div class="wish-item">✨ Thành công trong sự nghiệp</div>
-                    <div class="wish-item">🌟 Sáng tạo không giới hạn</div>
-                    <div class="wish-item">🚀 Phát triển bền vững</div>
-                </div>
-            </div>
-        </section>
-    </div>
+        function showLetter() {
+            document.getElementById('letterOverlay').classList.add('show');
+            document.getElementById('secretBtn').style.display = 'none';
+        }
 
-    <!-- Celebration Modal -->
-    <div id="celebrationModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="hideCelebration()">&times;</span>
-            <div class="celebration-animation">
-                <h2>🎉 Congratulations! 🎉</h2>
-                <p>Chúc mừng Trúc Li đã tốt nghiệp thành công!</p>
-                <div class="confetti"></div>
-            </div>
-        </div>
-    </div>
+        function closeLetter() {
+            document.getElementById('letterOverlay').classList.remove('show');
+            document.getElementById('secretBtn').style.display = 'block';
+        }
 
-    <canvas id="particleCanvas"></canvas>
-    <script src="script.js"></script>
+        // Close letter when clicking outside
+        document.getElementById('letterOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLetter();
+            }
+        });
+
+        function createConfetti() {
+            const types = ['square', 'circle', 'triangle'];
+            
+            for (let i = 0; i < 60; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    const type = types[Math.floor(Math.random() * types.length)];
+                    confetti.className = `confetti ${type}`;
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.animationDelay = Math.random() * 2 + 's';
+                    confetti.style.animationDuration = (3 + Math.random() * 2) + 's';
+                    document.getElementById('ceremonyScreen').appendChild(confetti);
+                    
+                    setTimeout(() => {
+                        if (confetti.parentNode) {
+                            confetti.remove();
+                        }
+                    }, 5000);
+                }, i * 100);
+            }
+        }
+
+        function createFlowers() {
+            const flowers = ['🌸', '🌺', '🌻', '🌹', '💐', '🌷', '🏵️'];
+            
+            for (let i = 0; i < 25; i++) {
+                setTimeout(() => {
+                    const flower = document.createElement('div');
+                    flower.className = 'flower';
+                    flower.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+                    flower.style.left = Math.random() * 100 + '%';
+                    flower.style.animationDelay = Math.random() * 3 + 's';
+                    flower.style.animationDuration = (4 + Math.random() * 2) + 's';
+                    document.getElementById('ceremonyScreen').appendChild(flower);
+                    
+                    setTimeout(() => {
+                        if (flower.parentNode) {
+                            flower.remove();
+                        }
+                    }, 7000);
+                }, i * 200);
+            }
+        }
+
+        function createSparkles() {
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle';
+                    sparkle.style.left = Math.random() * 100 + '%';
+                    sparkle.style.top = Math.random() * 100 + '%';
+                    sparkle.style.animationDelay = Math.random() * 2 + 's';
+                    document.getElementById('ceremonyScreen').appendChild(sparkle);
+                    
+                    setTimeout(() => {
+                        if (sparkle.parentNode) {
+                            sparkle.remove();
+                        }
+                    }, 2000);
+                }, i * 100);
+            }
+        }
+
+        // Continuous effects
+        setInterval(() => {
+            if (document.getElementById('ceremonyScreen').classList.contains('active')) {
+                createConfetti();
+                createSparkles();
+            }
+        }, 8000);
+
+        setInterval(() => {
+            if (document.getElementById('ceremonyScreen').classList.contains('active')) {
+                createFlowers();
+            }
+        }, 6000);
+    </script>
 </body>
 </html>
